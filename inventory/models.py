@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from decimal import Decimal
 from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
 from django.utils import timezone
@@ -15,7 +16,7 @@ class InventoryItem(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     quantity = models.IntegerField(default=0, validators=[MinValueValidator(0)])
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='inventory_items')
     created_at = models.DateTimeField(auto_now_add=True)
